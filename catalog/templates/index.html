@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  {% block title %}<title>Cron-Job</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+<h1>Cron-Job</h1>
+
+<h4>Titel, Adresse</h4>
+<div class=border>
+<form action="/interaktive_website/">
+<input type="text" name="Titel" value="Titel"><br>
+<input type="text" name="Adresse" value="http://"><br>
+</form>
+</div>
+
+
+<h4>Erfordert HTTP-Authentifizierung</h4>
+<div class=border>
+<form action="/interaktive_website/">
+Benutzername <input type="text" name="Benutzername" value=""> Passwort <input type="text" name="Passwort" value=""><br>
+</form>
+</div>
+
+<h4>Ausführung</h4>
+<div class=border>
+<form action="/interaktive_website/">
+<input type="radio" name="a" value="">Alle <input type="number" id="myNumber2" value="15">Minute(n)<br>
+
+<input type="radio" name="b" value="">Jeden Tag um <input type="time" id="myTime" value="00:00"><br>
+
+<input type="radio" name="c" value="">Immer am <input type="number" id="myNumber" value="1"> des Monats um <input type="time" id="myTime" value="00:00"><br>
+
+<input type="radio" name="d" value="">Benutzerdefiniert<br>
+</form>
+</div>
+
+<h4>Benachrichtungen</h4>
+<form action="/interaktive_website/">
+<div class=border>
+<label>
+<p>Mich per E-Mail benachrichtigen bei</p>
+</label>
+<label>
+<input type="checkbox" name="a" value="">Fehlschlag des Jobs<br>
+</label>
+<label>
+<input type="checkbox" name="b" value="">erfolgreichem Abruf nach vorherigem fehlschlag<br>
+</label>
+<label>
+<input type="checkbox" name="c" value="">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
+</label>
+</div>
+</form>
+
+
+
+<h4>Allgemein</h4>
+<form action="/interaktive_website/">
+<div class=border>
+<label>
+<input type="checkbox" name="d" value="">Antworten speichern<br>
+</label>
+</div>
+</form>
+
+Mit der Erstellung des Cron-Jobs erklären Sie, dass Sie entweder der Inhaber der abzurufenden Website sind oder im Einverständnis des Inhabers handeln.
+
+<form>
+<input type="button" value="Cron-Job erstellen" onclick="Good">
+
+<script>
+function Good {
+  alert("Sie haben Cron-Job erstellt");
+}
+</script>
+</form>
+
+</body>
+</html>
