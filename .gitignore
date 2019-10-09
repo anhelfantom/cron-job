@@ -168,3 +168,5 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/python,django
 /venv/
+/.idea/dataSources.xml
+/.idea/dataSources/f21e4b0d-0a2b-42ec-a3a0-413662fcd554.xml
