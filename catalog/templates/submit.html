@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+</head>
+<body>
+    <h2>You have added a Cron Job, congratulations!!!</h2>
+    <h4>Titel:</h4>
+    <p>{{Titel}}</p>
+    <h4>URL:</h4>
+    <p>{{UrlAdresse}}</p>
+    <h4>Zeit</h4>
+    {% if Benutzerdefiniert %}
+        <p>Die Zeit ist Benutzerdefiniert</p>
+    {% else %}
+        {% if Wahl1 %}
+            <p>Das Cron Job wird sich jede {{myNumber2}} Minute(n) wiederholen</p>
+        {% else %}
+            <p>Das Cron Job wird immer am {% if Days == 0 %} {% else %} {{Days}}. Tag des Monats am {% endif %} {{Hours}}{% if AfterTime == 0 %} {% else %}:{{Minutes}} {% endif %}Uhr ausführen</p>
+        {% endif %}
+    {% endif %}
+    <h4>Fehlschlag:</h4>
+    <p>{{FehlschlagAlert}}</p>
+    <h4>Erfolgreich nach Fehlschlag:</h4>
+    <p>{{ErfolgNachFehlschlagAlert}}</p>
+    <h4>Zu viele Fehlschlaege:</h4>
+    <p>{{ZuVielFehlschlaege}}</p>
+    <h4>Antworten speichern:</h4>
+    <p>{{AntwortenSpeichern}}</p>
+</body>
+</html>

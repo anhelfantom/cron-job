@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
-  {% block title %}<title>Cron-Job</title>{% endblock %}
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <title>Cron-Job</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   {% load static %}
@@ -13,74 +12,45 @@
 <h1>Cron-Job</h1>
 
 <h4>Titel, Adresse</h4>
+<form action="{% url 'cron:submit' %}" method="post">{% csrf_token %}
 <div class=border>
-<form action="/interaktive_website/">
-<input type="text" name="Titel" value="Titel"><br>
-<input type="text" name="Adresse" value="http://"><br>
-</form>
+<input type="text" name="titel" placeholder="Titel"><br>
+<input type="text" name="url" value="http://"><br>
 </div>
-
-
 <h4>Erfordert HTTP-Authentifizierung</h4>
 <div class=border>
-<form action="/interaktive_website/">
-Benutzername <input type="text" name="Benutzername" value=""> Passwort <input type="text" name="Passwort" value=""><br>
-</form>
+Benutzername <input type="text" name="benutzername" value=""> passwort <input type="text" name="passwort" value=""><br>
 </div>
-
 <h4>Ausführung</h4>
 <div class=border>
-<form action="/interaktive_website/">
-<input type="radio" name="a" value="">Alle <input type="number" id="myNumber2" value="15">Minute(n)<br>
-
-<input type="radio" name="b" value="">Jeden Tag um <input type="time" id="myTime" value="00:00"><br>
-
-<input type="radio" name="c" value="">Immer am <input type="number" id="myNumber" value="1"> des Monats um <input type="time" id="myTime" value="00:00"><br>
-
-<input type="radio" name="d" value="">Benutzerdefiniert<br>
-</form>
+<input type="radio" name="a" value="Wahl1">Alle <input type="number" name="myNumber2" value="15">Minute(n)<br>
+<input type="radio" name="a" value="Wahl2">Jeden Tag um <input type="number" name="hours" value="00">:<input type="number" name="minutes" value="00"><br>
+<input type="radio" name="a" value="Wahl3">Immer am <input type="number" name="myNumber" value="1"> des Monats um <input type="number" name="hours2" value="00">:<input type="number" name="minutes2" value="00"><br>
+<input type="radio" name="a" value="Wahl4">Benutzerdefiniert<br>
 </div>
-
 <h4>Benachrichtungen</h4>
-<form action="/interaktive_website/">
 <div class=border>
 <label>
 <p>Mich per E-Mail benachrichtigen bei</p>
 </label>
 <label>
-<input type="checkbox" name="a" value="">Fehlschlag des Jobs<br>
+<input type="checkbox" name="fehlschlagAlert" value="">Fehlschlag des Jobs<br>
 </label>
 <label>
-<input type="checkbox" name="b" value="">erfolgreichem Abruf nach vorherigem fehlschlag<br>
+<input type="checkbox" name="erfolgNachFehlschlagAlert" value="">erfolgreichem Abruf nach vorherigem fehlschlag<br>
 </label>
 <label>
-<input type="checkbox" name="c" value="">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
+<input type="checkbox" name="zuVielFehlschlaege" value="">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
 </label>
 </div>
-</form>
-
-
-
 <h4>Allgemein</h4>
-<form action="/interaktive_website/">
 <div class=border>
 <label>
-<input type="checkbox" name="d" value="">Antworten speichern<br>
+<input type="checkbox" name="antwortenSpeichern" value="">Antworten speichern<br>
 </label>
 </div>
-</form>
-
 Mit der Erstellung des Cron-Jobs erklären Sie, dass Sie entweder der Inhaber der abzurufenden Website sind oder im Einverständnis des Inhabers handeln.
-
-<form>
-<input type="button" value="Cron-Job erstellen" onclick="Good">
-
-<script>
-function Good {
-  alert("Sie haben Cron-Job erstellt");
-}
-</script>
+<input type="submit" value="Cron-Job erstellen">
 </form>
-
 </body>
 </html>
