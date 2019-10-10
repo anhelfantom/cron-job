@@ -14,19 +14,33 @@
 <h4>Titel, Adresse</h4>
 <form action="{% url 'cron:submit' %}" method="post">{% csrf_token %}
 <div class=border>
+    <label>
 <input type="text" name="titel" placeholder="Titel"><br>
+    </label>
+    <label>
 <input type="text" name="url" value="http://"><br>
+    </label>
 </div>
 <h4>Erfordert HTTP-Authentifizierung</h4>
 <div class=border>
-Benutzername <input type="text" name="benutzername" value=""> passwort <input type="text" name="passwort" value=""><br>
+    <label>
+Benutzername <input type="text" name="benutzername" value=""> Passwort <input type="text" name="passwort" value=""><br>
+        </label>
 </div>
 <h4>Ausführung</h4>
 <div class=border>
+    <label>
 <input type="radio" name="a" value="Wahl1">Alle <input type="number" name="myNumber2" value="15">Minute(n)<br>
+        </label>
+    <label>
 <input type="radio" name="a" value="Wahl2">Jeden Tag um <input type="number" name="hours" value="00">:<input type="number" name="minutes" value="00"><br>
+        </label>
+    <label>
 <input type="radio" name="a" value="Wahl3">Immer am <input type="number" name="myNumber" value="1"> des Monats um <input type="number" name="hours2" value="00">:<input type="number" name="minutes2" value="00"><br>
+        </label>
+    <label>
 <input type="radio" name="a" value="Wahl4">Benutzerdefiniert<br>
+        </label>
 </div>
 <h4>Benachrichtungen</h4>
 <div class=border>
@@ -34,19 +48,19 @@ Benutzername <input type="text" name="benutzername" value=""> passwort <input ty
 <p>Mich per E-Mail benachrichtigen bei</p>
 </label>
 <label>
-<input type="checkbox" name="fehlschlagAlert" value="">Fehlschlag des Jobs<br>
+<input type="checkbox" name="fehlschlagAlert">Fehlschlag des Jobs<br>
 </label>
 <label>
-<input type="checkbox" name="erfolgNachFehlschlagAlert" value="">erfolgreichem Abruf nach vorherigem fehlschlag<br>
+<input type="checkbox" name="erfolgNachFehlschlagAlert">erfolgreichem Abruf nach vorherigem fehlschlag<br>
 </label>
 <label>
-<input type="checkbox" name="zuVielFehlschlaege" value="">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
+<input type="checkbox" name="zuVielFehlschlaege">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
 </label>
 </div>
 <h4>Allgemein</h4>
 <div class=border>
 <label>
-<input type="checkbox" name="antwortenSpeichern" value="">Antworten speichern<br>
+<input type="checkbox" name="antwortenSpeichern">Antworten speichern<br>
 </label>
 </div>
 Mit der Erstellung des Cron-Jobs erklären Sie, dass Sie entweder der Inhaber der abzurufenden Website sind oder im Einverständnis des Inhabers handeln.

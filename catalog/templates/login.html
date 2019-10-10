@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles3.css' %}">
+</head>
+<body>
+    <div>
+        <h1>
+            {% if Account == 1 %}
+                Anmelden
+            {% else %}
+                Registrieren
+            {% endif %}
+        </h1>
+
+        {% if warning_nachricht %}<p><strong> {{warning_nachricht}}</strong></p> {% endif %}
+
+        <form id="login" method="post" {% if Account == 1 %}action="{% url 'cron:tryLogin' %}" {% else %} action="{% url 'cron:tryRegister' %}" {% endif %}>{% csrf_token %}
+            <p>Bitte fügen Sie ihre Benutzername ein</p>
+            <input type="text " id="login_name" name="login_name" value={{login_name}}>
+            <p>Bitte fügen Sie ihre Passwort ein</p>
+            <input type="password" id="login_password" name="login_password" value={{login_password}}>
+            <input id="login_button" type="submit" {% if Account == 1 %} value="Einloggen" {% else %} value="Registrieren" {% endif %}>
+        </form>
+        {% if Account == 1 %}
+            <a href="{% url 'cron:register'%}" id="register_link">Neue Benutzer?</a>
+        {% else %}
+            <a href="{% url 'cron:login'%}" id="register_link">Zurück zu Login</a>
+        {% endif %}
+    </div>
+</body>
+</html>

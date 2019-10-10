@@ -13,15 +13,18 @@
     <h4>URL:</h4>
     <p>{{UrlAdresse}}</p>
     <h4>Zeit</h4>
-    {% if Benutzerdefiniert %}
+    {% if Wahl4 %}
         <p>Die Zeit ist Benutzerdefiniert</p>
-    {% else %}
-        {% if Wahl1 %}
-            <p>Das Cron Job wird sich jede {{myNumber2}} Minute(n) wiederholen</p>
-        {% else %}
-            <p>Das Cron Job wird immer am {% if Days == 0 %} {% else %} {{Days}}. Tag des Monats am {% endif %} {{Hours}}{% if AfterTime == 0 %} {% else %}:{{Minutes}} {% endif %}Uhr ausführen</p>
-        {% endif %}
     {% endif %}
+    {% if Wahl1 %}
+            <p>Das Cron Job wird sich jede {{myNumber2}} Minute(n) wiederholen</p>
+            {% endif %}
+    {% if Wahl2 %}
+            <p>Das Cron Job wird jeden tag um {{hours}}:{{minutes}} ausgeführt.</p>
+        {% endif %}
+    {% if Wahl3 %}
+            <p>Das Cron Job wird immer am {{myNumber}} des Monats um {{hours2}}:{{minutes2}} ausgeführt</p>
+        {% endif %}
     <h4>Fehlschlag:</h4>
     <p>{{FehlschlagAlert}}</p>
     <h4>Erfolgreich nach Fehlschlag:</h4>
