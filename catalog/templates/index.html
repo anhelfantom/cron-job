@@ -1,72 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cron-Job</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <meta charset="UTF-8">
+    <title>Cron-Job</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-<h1>Cron-Job</h1>
+<div class="lefter">
+ <div class="menu-bar">
+        <h4>Du bist als {{login_name}} angemeldet. Du hast {{num_visits}} Mal diese Website besucht. Willst du dich ausloggen? <a href="{% url 'cron:logout' %}">Logout</a></h4>
+    </div>
 
+{% if enabled == 0 %}
+<h1>Cron-Job erstellen</h1>
 <h4>Titel, Adresse</h4>
+
 <form action="{% url 'cron:submit' %}" method="post">{% csrf_token %}
-<div class=border>
+    <div class=border1>
+        <label class="placeholder">
+            <input type="text" name="titel" placeholder="Titel"><br>
+        </label>
+        <label>
+            <input type="text" name="url" value="http://"><br>
+        </label>
+    </div>
     <label>
-<input type="text" name="titel" placeholder="Titel"><br>
+        <a class="link" {% if enabled == 0 %} href="{% url 'cron:index' 1 %}" {% else %}
+           href="{% url 'cron:index' 0 %}" {% endif %}>{% if enabled == 1 %}X{% endif %}</a><a>Erfordert
+        HTTP-Authentifizierung</a>
     </label>
-    <label>
-<input type="text" name="url" value="http://"><br>
-    </label>
-</div>
-<label>
-    <a class="link" {% if enabled == 0 %} href="{% url 'cron:index' 1%}" {% else %} href="{% url 'cron:index' 0%}" {% endif %}>{% if enabled == 1%}X{% endif %}</a><a>Erfordert HTTP-Authentifizierung</a>
-</label>
-<div class=border>
-    <label>
-Benutzername <input type="text" name="benutzername" required {% if enabled == 0 %} disabled {% endif %}> Passwort <input type="password" name="passwort" required {% if enabled == 0 %}disabled{% endif %}><br>
+    <div class=border2>
+        <label>
+            Benutzername <input type="text" name="benutzername" required {% if enabled == 0 %} disabled {% endif %}>
+            Passwort <input type="password" name="passwort" required {% if enabled == 0 %}disabled{% endif %}><br>
         </label>
-</div>
-<h4>Ausführung</h4>
-<div class=border>
-    <label>
-<input type="radio" name="a" value="Wahl1">Alle <input type="number" name="myNumber2" value="15">Minute(n)<br>
+    </div>
+    <h4>Ausführung</h4>
+    <div class=border>
+        <label>
+            <input type="radio" name="a" value="Wahl1">Alle <input type="number" name="myNumber2"
+                                                                   value="15">Minute(n)<br>
         </label>
-    <label>
-<input type="radio" name="a" value="Wahl2">Jeden Tag um <input type="number" name="hours" value="00">:<input type="number" name="minutes" value="00"><br>
+        <label>
+            <input type="radio" name="a" value="Wahl2">Jeden Tag um <input type="number" name="hours" value="00">:<input
+                type="number" name="minutes" value="00"><br>
         </label>
-    <label>
-<input type="radio" name="a" value="Wahl3">Immer am <input type="number" name="myNumber" value="1"> des Monats um <input type="number" name="hours2" value="00">:<input type="number" name="minutes2" value="00"><br>
+        <label>
+            <input type="radio" name="a" value="Wahl3">Immer am <input type="number" name="myNumber" value="1"> des
+            Monats um <input type="number" name="hours2" value="00">:<input type="number" name="minutes2"
+                                                                            value="00"><br>
         </label>
-    <label>
-<input type="radio" name="a" value="Wahl4">Benutzerdefiniert<br>
+        <label>
+            <input type="radio" name="a" value="Wahl4">Benutzerdefiniert<br>
         </label>
-</div>
-<h4>Benachrichtungen</h4>
-<div class=border>
-<label>
-<p>Mich per E-Mail benachrichtigen bei</p>
-</label>
-<label>
-<input type="checkbox" name="fehlschlagAlert">Fehlschlag des Jobs<br>
-</label>
-<label>
-<input type="checkbox" name="erfolgNachFehlschlagAlert">erfolgreichem Abruf nach vorherigem fehlschlag<br>
-</label>
-<label>
-<input type="checkbox" name="zuVielFehlschlaege">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
-</label>
-</div>
-<h4>Allgemein</h4>
-<div class=border>
-<label>
-<input type="checkbox" name="antwortenSpeichern">Antworten speichern<br>
-</label>
-</div>
-Mit der Erstellung des Cron-Jobs erklären Sie, dass Sie entweder der Inhaber der abzurufenden Website sind oder im Einverständnis des Inhabers handeln.
-<input type="submit" value="Cron-Job erstellen">
+    </div>
+    <h4>Benachrichtungen</h4>
+    <div class=border3>
+        <label>
+            <p>Mich per E-Mail benachrichtigen bei</p>
+        </label>
+        <label>
+            <input type="checkbox" name="fehlschlagAlert">Fehlschlag des Jobs<br>
+        </label>
+        <label>
+            <input type="checkbox" name="erfolgNachFehlschlagAlert">erfolgreichem Abruf nach vorherigem fehlschlag<br>
+        </label>
+        <label>
+            <input type="checkbox" name="zuVielFehlschlaege">automatischer Deaktivierung wegen zu vieler Fehlschläge<br>
+        </label>
+    </div>
+    <h4>Allgemein</h4>
+    <div class=border4>
+        <label>
+            <input type="checkbox" name="antwortenSpeichern">Antworten speichern<br>
+        </label>
+    </div>
+    <h5>Mit der Erstellung des Cron-Jobs erklären Sie, dass Sie entweder der Inhaber der abzurufenden Website sind oder im
+        Einverständnis des Inhabers handeln.</h5>
+    <input type="submit" class="submit" value="Cron-Job erstellen">
 </form>
+
+{% else %}
+
+    <p>Bitte anmelden: <a href="">Login</a></p>
+{% endif %}
+</div>
 </body>
 </html>

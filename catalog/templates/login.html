@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles3.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
+<body class="central">
     <div>
         <h1>
             {% if Account == 1 %}
@@ -20,7 +20,7 @@
 
         {% if warning_nachricht %}<p><strong> {{warning_nachricht}}</strong></p> {% endif %}
 
-        <form id="login" method="post" {% if Account == 1 %}action="{% url 'cron:tryLogin' %}" {% else %} action="{% url 'cron:tryRegister' %}" {% endif %}>{% csrf_token %}
+        <form name="forlogin" id="login" method="post" {% if Account == 1 %}action="{% url 'cron:tryLogin' %}" {% else %} action="{% url 'cron:tryRegister' %}" {% endif %}>{% csrf_token %}
             <p>Bitte fügen Sie ihre Benutzername ein</p>
             <input type="text " id="login_name" name="login_name" value={{login_name}}>
             <p>Bitte fügen Sie ihre Passwort ein</p>
