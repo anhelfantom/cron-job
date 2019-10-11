@@ -14,5 +14,24 @@ body{
   flex-flow: column;
   margin-bottom: 20px;
 }
+.link {
+	background-color:transparent;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color:#666666;
+	font-size:14px;
+	padding:4px 4px;
+	text-decoration:none;
+}
+.link:hover {
+	background-color:transparent;
+}
+.link:active {
+	position:relative;
+	top:1px;
+}
+
+
 
   

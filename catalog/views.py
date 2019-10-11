@@ -5,6 +5,9 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 
 
+def main(request):
+	return HttpResponseRedirect(reverse("cron:index", args=(0,)))
+
 def login(request, Account=1):
 	return render(request, 'login.html', {'Account': Account})
 
@@ -36,7 +39,7 @@ def tryLogin(request):
 			request.session['LoggedIn'] = True
 			request.session['username'] = loginName
 			request.session.set_expiry(0)
-			return HttpResponseRedirect(reverse('cron:index'))
+			return HttpResponseRedirect(reverse('cron:index', args=(0,)))
 
 def tryRegister(request):
 	loginName = request.POST.get('login_name')
@@ -56,9 +59,17 @@ def tryRegister(request):
 		})
 
 
-def index(request):
-	return render(request, 'index.html')
-
+def index(request, enabled=0):
+	if request.session.get('LoggedIn', False):
+		return render(request, 'index.html', {
+			"enabled": enabled,
+			"error": ""
+		})
+	else:
+		return render(request, 'login.html', {
+			'warnung_nachricht': "Bitte einloggen",
+			'Account': 1
+		})
 
 
 def stringToBoolean(string):
@@ -84,12 +95,11 @@ def submit(request, enabled=0):
 	if request.session.get('LoggedIn', False):
 		titel = request.POST.get('titel')
 		url = request.POST.get('url')
-		benutzername = request.POST.get('benutzername')
-		passwort = request.POST.get('passwort')
 		myNumber2 = request.POST.get('myNumber2')
 		myNumber = request.POST.get('myNumber')
 		hours = request.POST.get('hours')
 		benutzerdefiniert = False
+		requiredhttp = bool(enabled)
 		Wahl1 = False
 		Wahl2 = False
 		Wahl3 = False
@@ -99,8 +109,6 @@ def submit(request, enabled=0):
 		minutes2 = request.POST.get('minutes2')
 		fehlschlagAlert = stringToBoolean(request.POST.get("fehlschlagAlert"))
 		erfolgNachFehlschlagAlert = stringToBoolean(request.POST.get("erfolgNachFehlschlagAlert"))
-		zuVielFehlschlaege = stringToBoolean(request.POST.get("zuVielFehlschlaege"))
-		antwortenSpeichern = stringToBoolean(request.POST.get("antwortenSpeichern"))
 		ausgewaehltewahl = request.POST.get("a")
 		if ausgewaehltewahl == "Wahl1":
 			Wahl1 = True
@@ -117,28 +125,36 @@ def submit(request, enabled=0):
 		else:
 			Wahl4 = True
 			benutzerdefiniert = True
-		try:
-			benutzer_data = Benutzer.objects.get(username=benutzername)
-		except(KeyError, Benutzer.DoesNotExist):
-			return render(request, 'index.html', {
-				"enabled": enabled,
-				"warnung": "Sie können nicht ein Cron Job für einen anderen Benutzer machen"
-			})
-		else:
-			richtige_password = benutzer_data.password
-			if richtige_password != passwort:
+		zuVielFehlschlaege = stringToBoolean(request.POST.get("zuVielFehlschlaege"))
+		antwortenSpeichern = stringToBoolean(request.POST.get("antwortenSpeichern"))
+		if requiredhttp:
+			benutzername = request.POST.get('benutzername')
+			passwort = request.POST.get('passwort')
+			try:
+				benutzer_data = Benutzer.objects.get(username=benutzername)
+			except(KeyError, Benutzer.DoesNotExist):
 				return render(request, 'index.html', {
 					"enabled": enabled,
-					"warning": "Sie können nicht ein Cron Job für einen anderen Benutzer machen"
+					"warnung": "Sie können nicht ein Cron Job für einen anderen Benutzer machen"
 				})
-			eingabe = Infos(Titel=titel, UrlAdresse=url, Benutzername=benutzername,
+			else:
+				richtige_password = benutzer_data.password
+				if richtige_password != passwort:
+					return render(request, 'index.html', {
+						"enabled": enabled,
+						"warning": "Sie können nicht ein Cron Job für einen anderen Benutzer machen"
+					})
+		else:
+			benutzername = ""
+			passwort = ""
+		eingabe = Infos(Titel=titel, UrlAdresse=url, Benutzername=benutzername,
 						Passwort=passwort, Hours=hours, Hours2=hours2, Minutes=minutes,
 						Minutes2=minutes2, FehlschlagAlert=fehlschlagAlert,
 						ErfolgNachFehlschlagAlert=erfolgNachFehlschlagAlert,
 						ZuVielFehlschlaege=zuVielFehlschlaege, AntwortenSpeichern=antwortenSpeichern,
 						MyNumber=myNumber, MyNumber2=myNumber2, Benutzerdefiniert=benutzerdefiniert)
-			eingabe.save()
-			return render(request, 'submit.html', {
+		eingabe.save()
+		return render(request, 'submit.html', {
 							"Titel": titel,
 							"Wahl1":Wahl1,
 							"Wahl2":Wahl2,
