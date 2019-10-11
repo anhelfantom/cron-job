@@ -10,28 +10,17 @@
 </head>
 <body class="central">
     <div>
-        <h1>
-            {% if Account == 1 %}
-                Anmelden
-            {% else %}
-                Registrieren
-            {% endif %}
-        </h1>
+        <h1>Anmelden</h1>
 
         {% if warning_nachricht %}<p><strong> {{warning_nachricht}}</strong></p> {% endif %}
 
         <form name="forlogin" id="login" method="post" {% if Account == 1 %}action="{% url 'cron:tryLogin' %}" {% else %} action="{% url 'cron:tryRegister' %}" {% endif %}>{% csrf_token %}
-            <p>Bitte fügen Sie ihre Benutzername ein</p>
+            <p>Bitte fügen Sie ihre Benutzername ein (erstellen Sie zuerst einen Benutzer in Django Admin Site (login:admin und passwort:superuser)</p>
             <input type="text " id="login_name" name="login_name" value={{login_name}}>
             <p>Bitte fügen Sie ihre Passwort ein</p>
             <input type="password" id="login_password" name="login_password" value={{login_password}}>
-            <input id="login_button" type="submit" {% if Account == 1 %} value="Einloggen" {% else %} value="Registrieren" {% endif %}>
+            <input id="login_button" type="submit" value="Einloggen" >
         </form>
-        {% if Account == 1 %}
-            <a href="{% url 'cron:register'%}" id="register_link">Neue Benutzer?</a>
-        {% else %}
-            <a href="{% url 'cron:login'%}" id="register_link">Zurück zu Login</a>
-        {% endif %}
     </div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 from catalog.models import Infos
 from catalog.models import Benutzer
@@ -22,29 +23,19 @@ def register(request, Account=0):
 def tryLogin(request):
     loginName = request.POST['login_name']
     loginPassword = request.POST['login_password']
-    try:
-        benutzer_data = Benutzer.objects.get(username=loginName)
-    except(KeyError, Benutzer.DoesNotExist):
-        return render(request, 'login.html', {
-            'warnung_nachricht': "Dein Passwort oder Benutzername sind nicht korrekt",
-            'Account': 1,
-            'login_name': loginName,
-            'login_password': loginPassword
-        })
+    user = authenticate(username=loginName, password=loginPassword)
+    if user is not None:
+        request.session['LoggedIn'] = True
+        request.session['username'] = loginName
+        request.session.set_expiry(0)
+        return HttpResponseRedirect(reverse('cron:index', args=(0,)))
     else:
-        richtige_password = benutzer_data.password
-        if richtige_password != loginPassword:
             return render(request, 'login.html', {
                 'warnung_nachricht': "Dein Passwort oder Benutzername sind nicht korrekt",
                 'Account': 1,
                 'login_name': loginName,
                 'login_password': loginPassword
             })
-        else:
-            request.session['LoggedIn'] = True
-            request.session['username'] = loginName
-            request.session.set_expiry(0)
-            return HttpResponseRedirect(reverse('cron:index', args=(0,)))
 
 
 def tryRegister(request):
@@ -69,14 +60,9 @@ def logout(request):
     if request.session.get('LoggedIn', False):
         request.session.set_expiry(1)
         return render(request, 'login.html', {
-            'warnung_nachricht': "Du bist ausgeloggt",
-            'hasAccount': 1
+
         })
-    else:
-        return render(request, 'login.html', {
-            'warnung_nachricht': "Du bist noch nicht eingeloggt",
-            'hasAccount': 1
-        })
+
 
 
 def index(request, enabled=0):
